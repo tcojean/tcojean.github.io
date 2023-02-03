@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Good Code Reviews</title>
+<meta name="author" content="Terry Cojean"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css" id="theme"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Good Code Reviews</h1><h2 class="author">Terry Cojean</h2><p class="date">Created: 2023-02-03 ven. 14:21</p>
+</section>
+<section id="table-of-contents-section">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Sources</a></li>
+<li><a href="#/slide-2">2. Code reviews</a>
+<ul>
+<li><a href="#/slide-2-1">2.1. Support</a></li>
+<li><a href="#/slide-2-2">2.2. Ginkgo-bot commands</a></li>
+</ul>
+</li>
+<li><a href="#/slide-3">3. Conducting reviews</a>
+<ul>
+<li><a href="#/slide-3-1">3.1. Process</a>
+<ul>
+<li><a href="#/slide-3-1-1">3.1.1. Diving into the code</a></li>
+</ul>
+</li>
+<li><a href="#/slide-3-2">3.2. Things to look out for</a></li>
+<li><a href="#/slide-3-3">3.3. Writing the review</a></li>
+<li><a href="#/slide-3-4">3.4. Writing the review (bis)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Sources</h2>
+<ul>
+<li>Our own <a href="https://github.com/ginkgo-project/ginkgo/blob/develop/CONTRIBUTING.md">Contributing.md</a>. Please help improve it!</li>
+<li><a href="https://google.github.io/eng-practices/">Google Engineering Practices</a></li>
+<li><a href="https://docs.gitlab.com/ee/development/code_review.html">Gitlab Review Process</a></li>
+<li><a href="https://stackoverflow.blog/2019/09/30/how-to-make-good-code-reviews-better/">StackOverflow blog better code reviews</a></li>
+<li><a href="https://www.youtube.com/watch?v=Yi63GrFQ7wI">ECP Ideas Webinar</a></li>
+<li><a href="https://www.software.ac.uk/blog/2017-05-11-constructive-code-critique">Software Sustainability Institute</a></li>
+<li><a href="https://bssw.io/items?topic=peer-code-review">Better Scientific SoftWare </a></li>
+<li><a href="https://chromium.googlesource.com/chromiumos/docs/+/HEAD/glossary.md#english-acronyms-and-abbreviations">Some common acronyms (google chromiumos)</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Code reviews</h2>
+<ul>
+<li>Essential to code quality</li>
+<li>Ensure knowledge sharing</li>
+<li>Allows to confirm or review the global code structure, design</li>
+<li>Review portions of the code depending on area of expertise</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Support</h3>
+<ul>
+<li>Automated tests (github, gitlab CI)</li>
+<li>Automated code coverage (report in the PR)</li>
+<li>Automated quality checks (on the gitlab)</li>
+<li>clang-format for most style issues</li>
+<li>The Ginkgo-bot and its commands</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Ginkgo-bot commands</h3>
+<ul>
+<li>format!</li>
+<li>rebase!</li>
+<li>format-rebase!</li>
+<li>label! (for external PRs)</li>
+<li>check-format! (usually done automatically)</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Conducting reviews</h2>
+<ul>
+<li>Our PRs are usually big (&gt;1k lines)</li>
+<li>It&rsquo;s fine to only do portions at a time</li>
+<li>Or review only a small part
+<ul>
+<li>tests</li>
+<li>interfaces</li>
+<li>algorithms</li>
+<li>OneAPI</li>
+
+</ul></li>
+<li>We have interest groups, see <a href="https://github.com/orgs/ginkgo-project/teams/reviewers/teams">https://github.com/orgs/ginkgo-project/teams/reviewers/teams</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Process</h3>
+<p>
+Many approaches, depend on review objective. What I and others usually do:
+</p>
+<ol>
+<li>A light pass to find the purpose of the PR and its scope: description, interfaces, examples/tests</li>
+<li>If something prevents clear reading of the PR, mention to the author and wait.</li>
+<li>Another light pass for the context: how does this relate to the rest of the code, other efforts (past, ongoing or future?). Design issue popping up?</li>
+<li>Diving into the code</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-3-1-1">
+<h4 id="3-1-1"><span class="section-number-4">3.1.1.</span> Diving into the code</h4>
+<ul>
+<li>Start with tests or examples to understand functionality usage</li>
+<li>Look at interfaces, general logic, requirements and dependencies. &ldquo;main&rdquo; aspects of the PR.</li>
+<li>Algorithms: data initialization.</li>
+<li>Algorithms: core functionality.</li>
+<li>Come back to tests, do they match the algorithms? Check corner cases?</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Things to look out for</h3>
+<ul>
+<li>Usability</li>
+<li>Missing or wrong documentation is a bug</li>
+<li>Needless complexity is a bug in waiting</li>
+<li>Missing tests</li>
+<li>Corner cases, empty data, non-tested branches, &#x2026;</li>
+<li>Errors, exceptions are appropriate and are tested</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Writing the review</h3>
+<ul>
+<li>Stay civil: the code is being reviewed not the person</li>
+<li>Distinguish important comments from nitpicks</li>
+<li>Summarize in the review text your main concerns, and explain why</li>
+<li>Stay open ended, offer alternatives or workarounds if possible</li>
+<li>Don&rsquo;t hesitate to ask questions in the review: if you don&rsquo;t understand, documentation is missing.</li>
+
+</ul>
+
+
+</section>
+</section>
+<section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Writing the review (bis)</h3>
+<ul>
+<li>No need to aim for perfection, code development is an iterative process.</li>
+<li>If a question or concern look bigger, after discussing with the author, create an issue out of it, bring it in a meeting, open polls, &#x2026;</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/search/search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'convex',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealMarkdown, RevealNotes, RevealSearch, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>
